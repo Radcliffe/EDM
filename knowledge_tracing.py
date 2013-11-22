@@ -1,4 +1,3 @@
-
 # Bayesian Knowledge Tracing
 #
 #########################################################################################################
@@ -22,9 +21,6 @@ import math
 import random
 import numpy
 import scipy.optimize
-import time
-
-start = time.time()
 
 # Configuration:
 random.seed(42)
@@ -65,7 +61,7 @@ def cost(x):
             L_old = L0
         else:
             L_old = L_new
-        PCorr = bound(L_old*(1-S) + (1-L_old)*G, 1e-6, 1-1e-6) # Bounding PCorr to avoid division by 0.
+        PCorr = bound(L_old*(1-S) + (1-L_old)*G, 1e-12, 1-1e-12) # Bounding PCorr to avoid division by 0.
         SS += (Right[i] - PCorr)**2
         L_cond = L_old
         if Right[i] == 1:
