@@ -25,8 +25,9 @@ random.seed(42)
 S_max = 0.1                 # Maximum probability of slipping
 G_max = 0.3                 # Maximum probability of guessing correctly
 STUDENTCOL = 2              # Column containing Student name (counting from zero)
-RIGHTCOL = 5                # Column indicating if the student was correct (1 or 0)
+RIGHTCOL = 5                # Column indicating if the student was correct (0 or 1)
 KCCOL = 3                   # Column containing the Knowledge Component (KC)
+FIRSTATTEMPTCOL = 6         # Column indicating if the action is a first attempt (0 or 1)
 HEADER = True               # Does file contain a header row?
 SEP = ","                   # Separator (use '\t' for tab-separated files or ',' for comma-separated files
                             #    Use '\t' for the test data in Ryan Baker's BKT solver
@@ -130,11 +131,10 @@ for KC in KCs:
     Student = []
     Right = []
     for row in rows:
-        if row[KCCOL] == KC:
+        if row[KCCOL] == KC and int(row[FIRSTATTEMPTCOL]) == 1:
             Student.append(row[STUDENTCOL])
             Right.append(int(row[RIGHTCOL]))
     N = len(Student)
     (L0, T, S, G), SS = mincost()
 #   (L0, T, S, G), SS = minimize()
     print "%s\t%.3f\t%.3f\t%.3f\t%.3f\t%.4f" % (KC, L0, T, S, G, SS)
-
