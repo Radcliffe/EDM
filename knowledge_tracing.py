@@ -28,6 +28,7 @@ STUDENTCOL = 2              # Column containing Student name (counting from zero
 RIGHTCOL = 5                # Column indicating if the student was correct (0 or 1)
 KCCOL = 3                   # Column containing the Knowledge Component (KC)
 FIRSTATTEMPTCOL = 6         # Column indicating if the action is a first attempt (0 or 1)
+                            #    Set equal to None if the column is not present in the data.
 HEADER = True               # Does file contain a header row?
 SEP = ","                   # Separator (use '\t' for tab-separated files or ',' for comma-separated files
                             #    Use '\t' for the test data in Ryan Baker's BKT solver
@@ -43,6 +44,8 @@ with open(fname, "rt") as f:
     if HEADER:
         f.readline()
     rows = [line.split(SEP) for line in f.readlines()]
+    if FIRSTATTEMPTCOL is not None:
+        rows = [row for row in rows if int(row[FIRSTATTEMPTCOL]) == 1]
     KCs = sorted(list(set([row[KCCOL] for row in rows])))
 f.close()
 
@@ -68,7 +71,7 @@ def cost(x):
         L_new = L_cond + (1 - L_cond) * T
     return SS/N
 
-# Minimize the cost function using the BFGS algorithm. Requires the numpy and scipy packages.
+# Minimize the cost function using the BFGS algorithm. Requires the SciPy package.
 def mincost():
     L0 = random.random()
     T = random.random()
@@ -131,10 +134,9 @@ for KC in KCs:
     Student = []
     Right = []
     for row in rows:
-        if row[KCCOL] == KC and int(row[FIRSTATTEMPTCOL]) == 1:
+        if row[KCCOL] == KC:
             Student.append(row[STUDENTCOL])
             Right.append(int(row[RIGHTCOL]))
     N = len(Student)
-    (L0, T, S, G), SS = mincost()
-#   (L0, T, S, G), SS = minimize()
+    (L0, T, S, G), SS = mincost() # Can also use minimize()
     print "%s\t%.3f\t%.3f\t%.3f\t%.3f\t%.4f" % (KC, L0, T, S, G, SS)
