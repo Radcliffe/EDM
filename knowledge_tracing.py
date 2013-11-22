@@ -17,7 +17,6 @@
 # actual result (0 or 1).
 #########################################################################################################
 
-import math
 import random
 import scipy.optimize
 
