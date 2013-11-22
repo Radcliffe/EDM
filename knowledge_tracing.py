@@ -7,9 +7,9 @@
 # We further assume that learning a skill is governed by the following parameters:
 #
 #    L0: Initial probability that the skill has been learned
-#    T:  Probability that the student will learn the skill at each opportunity to use it.
-#    S:  Probability that the student who has learned the skill will give an incorrect answer (slip).
-#    G:  Probability that the student who has not learned the skill will give a correct answer (guess).
+#    T:  Probability that a student will learn the skill at each opportunity to use it.
+#    S:  Probability that a student who has learned the skill will give an incorrect answer (slip).
+#    G:  Probability that a student who has not learned the skill will give a correct answer (guess).
 #
 # Given time-series data on whether students correctly answer questions involving this skill,
 # we seek to estimate these four parameters. We fit the parameters by minimizing a cost function,
@@ -43,8 +43,6 @@ fname = "./data/bigdata-edu-Data-Sets-Asgn4-dataset.csv"    # Name and location 
 with open(fname, "rt") as f:
     if HEADER:
         f.readline()
-    Student = []
-    Right = []
     rows = [line.split(SEP) for line in f.readlines()]
     KCs = sorted(list(set([row[KCCOL] for row in rows])))
 f.close()
