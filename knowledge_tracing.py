@@ -1,5 +1,4 @@
 
-
 # Bayesian Knowledge Tracing
 #
 #########################################################################################################
@@ -66,7 +65,7 @@ def cost(x):
             L_old = L0
         else:
             L_old = L_new
-        PCorr = bound(L_old*(1-S) + (1-L_old)*G, 1e-6, 1-1e-6)
+        PCorr = bound(L_old*(1-S) + (1-L_old)*G, 1e-6, 1-1e-6) # Bounding PCorr to avoid division by 0.
         SS += (Right[i] - PCorr)**2
         L_cond = L_old
         if Right[i] == 1:
@@ -82,11 +81,10 @@ def mincost():
     T = random.random()
     S = random.random() * S_max
     G = random.random() * G_max
-    x0 = numpy.array((L0, T, S, G))
     result = scipy.optimize.fmin_l_bfgs_b(cost,(L0, T, S, G), approx_grad=1, bounds=((0,1), (0,1), (0,S_max), (0,G_max)))
     return result[0], result[1]
 
-# Force x to a value between a and b. Helper function for the minimize() function.
+# Force x to a value between a and b. Helper function for the minimize() and cost() functions.
 def bound(x, a, b):
     return max(a, min(x, b))
 
