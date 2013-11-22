@@ -19,7 +19,6 @@
 
 import math
 import random
-import numpy
 import scipy.optimize
 
 # Configuration:
